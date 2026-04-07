@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Proposal | Controltecnica BIO</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ================= VARIABLES & RESET ================= */
+        :root {
+            --bg-base: #F4F7F6;                   
+            --bg-white: #ffffff;                  
+            --bg-gray: #f0f4f8;                   
+            --text-headers: #102A43;              
+            --text-body: #334E68;                 
+            --accent: #005A9C;                    
+            --accent-light: rgba(0, 90, 156, 0.05);
+            --border: #D9E2EC;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg-base); color: var(--text-body); line-height: 1.6; overflow-x: hidden; }
+        .hidden { display: none !important; }
+        a { text-decoration: none; transition: color 0.3s ease; }
+
+        /* ================= ANIMATIONS ================= */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .hover-3d {
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
+        }
+        .hover-3d:hover {
+            transform: translateY(-5px) scale(1.01);
+            box-shadow: 0 12px 25px rgba(16, 42, 67, 0.08);
+        }
+
+        /* ================= LAYOUT WRAPPER ================= */
+        .wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* ================= HEADER ================= */
+        header { 
+            background: var(--bg-base); 
+            padding: 20px 5%; 
+            position: sticky; top: 0; z-index: 100; 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.03); 
+        }
+        .logo-text img {
+            max-height: 40px;
+        }
+        
+        .desktop-nav { display: flex; align-items: center; gap: 30px; }
+        .desktop-nav ul { list-style: none; display: flex; gap: 25px; }
+        .desktop-nav ul li a { color: var(--text-headers); font-size: 0.95rem; font-weight: 600; }
+        .desktop-nav ul li a:hover { color: var(--accent); }
+        
+        .lang-switch { display: flex; gap: 10px; font-size: 0.85rem; background: var(--bg-white); padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border); box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
+        .lang-switch button { background: none; border: none; cursor: pointer; color: var(--text-body); font-weight: 600; font-family: 'Inter', sans-serif; }
+        .lang-switch button.active { color: var(--accent); }
+
+        .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; z-index: 102; }
+        .hamburger span { width: 25px; height: 3px; background: var(--text-headers); transition: 0.3s; border-radius: 2px; }
+
+        .mobile-menu {
+            position: fixed; top: 0; right: -100%; width: 100%; height: 100vh;
+            background: var(--bg-base); z-index: 101;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            transition: right 0.4s ease;
+        }
+        .mobile-menu.open { right: 0; }
+        .close-menu { position: absolute; top: 20px; left: 5%; font-size: 2.5rem; color: var(--text-headers); background: none; border: none; cursor: pointer; }
+
+        /* ================= HERO ================= */
+        .hero { 
+            background: var(--bg-white); 
+            padding: 80px 5%; 
+            min-height: 45vh; 
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .hero .wrapper { 
+            justify-content: center; 
+            gap: 150px; 
+        }
+        .hero-left { display: flex; flex: 0 1 auto; }
+        .hero-left img { max-width: 280px; width: 100%; }
+        .hero-right { display: flex; flex: 0 1 auto; text-align: left; max-width: 600px;}
+        .hero-right h1 { 
+            font-size: 2.4rem; 
+            font-weight: 700; 
+            line-height: 1.2; 
+            color: var(--text-headers); 
+            font-family: 'Poppins', sans-serif; 
+            letter-spacing: -0.5px;
+            margin-bottom: 15px;
+        }
+        .hero-right p {
+            font-size: 1.1rem;
+            color: var(--text-body);
+        }
+
+        /* ================= SECTIONS ================= */
+        section { padding: 100px 10%; }
+        .section-header { margin-bottom: 60px; max-width: 850px; }
+        .section-header h2 { font-size: 2.2rem; font-weight: 700; margin-bottom: 15px; color: var(--text-headers); font-family: 'Poppins', sans-serif; }
+
+        .grid-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+        .card { background: var(--bg-white); padding: 40px 30px; border-radius: 12px; border: 1px solid var(--border); display: flex; flex-direction: column; }
+        .card h3 { font-size: 1.3rem; color: var(--accent); margin-bottom: 15px; font-weight: 600; }
+
+        /* ================= TIMELINE ================= */
+        .timeline-wrapper { margin-top: 40px; background: var(--bg-white); padding: 40px; border-radius: 12px; border: 1px solid var(--border); }
+        .timeline-wrapper h3 { margin-bottom: 25px; font-size: 1.6rem; color: var(--text-headers); font-family: 'Poppins', sans-serif;}
+        
+        .timeline-flex { display: flex; gap: 15px; overflow-x: auto; padding-bottom: 10px; }
+        .time-block { flex: 1; min-width: 200px; background: var(--bg-gray); border-top: 4px solid var(--accent); padding: 25px 20px; border-radius: 0 0 8px 8px; }
+        .time-block.light-block { border-top-color: #627D98; background: #f8fbfd; }
+        .time-block h4 { font-size: 1.1rem; margin-bottom: 5px; color: var(--text-headers); }
+        .promo-subheader { font-size: 0.75rem; text-transform: uppercase; color: var(--accent); font-weight: 700; display: block; margin-bottom: 15px; }
+
+        /* ================= BUDGET ================= */
+        .deliv-budget-grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 40px; margin-top: 40px; }
+        .entregables-col { background: var(--bg-white); border: 1px solid var(--border); border-radius: 12px; padding: 40px; }
+        .entregables-col h3 { font-size: 1.5rem; margin-bottom: 25px; display: flex; align-items: center; gap: 10px; color: var(--text-headers); }
+        
+        ul.custom-list { list-style: none; }
+        ul.custom-list li { position: relative; padding-left: 25px; margin-bottom: 20px; font-size: 0.95rem; padding-bottom: 15px; border-bottom: 1px solid var(--bg-gray);}
+        ul.custom-list li:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0;}
+        ul.custom-list li::before { content: '✓'; position: absolute; left: 0; color: var(--accent); font-weight: bold; font-size: 1.1rem;}
+        ul.custom-list li strong { color: var(--text-headers); display: block; margin-bottom: 5px; font-size: 1.05rem;}
+
+        .budget-card { background: var(--bg-headers); border: 2px solid var(--accent); border-radius: 12px; padding: 40px; display: flex; flex-direction: column; justify-content: center; background-color: var(--bg-white);}
+        .budget-card > h3 { font-size: 1.5rem; margin-bottom: 25px; font-weight: 700; text-align: center; color: var(--text-headers); }
+        .price-breakdown { padding-top: 20px; border-top: 1px solid var(--border); width: 100%; }
+        
+        .price-row { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 1rem; width: 100%; align-items: baseline; gap: 15px; color: var(--text-body);}
+        .price-row span:last-child { text-align: right; flex-shrink: 0; font-weight: 600; color: var(--text-headers);}
+        .price-row.total { margin-top: 15px; padding-top: 15px; border-top: 2px solid var(--text-headers); color: var(--accent); font-weight: 700; font-size: 1.8rem; letter-spacing: -0.5px; }
+        
+        /* ================= INFO BOX (DISCLAIMERS) ================= */
+        .info-box { background: var(--bg-white); border: 1px solid var(--border); border-left: 4px solid var(--text-headers); padding: 30px; border-radius: 8px; }
+        .info-box ul { list-style: none; }
+        .info-box ul li { margin-bottom: 15px; font-size: 0.95rem; }
+        .info-box ul li strong { color: var(--accent); }
+
+        footer { background: var(--bg-white); padding: 40px 10%; text-align: center; border-top: 1px solid var(--border); color: var(--text-headers); display: flex; flex-direction: column; align-items: center; gap: 5px; }
+        .footer-contact { font-size: 0.95rem; font-weight: 600; color: var(--accent); }
+
+        /* ================= MOBILE ================= */
+        @media (max-width: 900px) {
+            .desktop-nav { display: none; }
+            .hamburger { display: flex; }
+            .hero { padding: 60px 5%; }
+            .hero .wrapper { flex-direction: column-reverse; text-align: center; gap: 40px; }
+            .hero-right h1 { font-size: 1.8rem; text-align: center;}
+            .hero-right p { text-align: center; }
+            section { padding: 60px 5%; }
+            .deliv-budget-grid { grid-template-columns: 1fr; }
+            .timeline-flex { flex-direction: column; }
+            .time-block { border-top: none; border-left: 4px solid var(--accent); border-radius: 0 8px 8px 0; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="wrapper">
+            <div class="logo">
+                <a href="#" class="logo-text">
+                    <img src="loop-logo.png" alt="Loop Development" onerror="this.onerror=null; this.src='https://via.placeholder.com/200x50/005A9C/FFFFFF?text=Loop+Development';">
+                </a>
+            </div>
+            
+            <div class="desktop-nav">
+                <nav>
+                    <ul>
+                        <li><a href="#overview"><span class="lang en">Overview</span><span class="lang es hidden">Resumen</span></a></li>
+                        <li><a href="#roadmap"><span class="lang en">Roadmap</span><span class="lang es hidden">Cronograma</span></a></li>
+                        <li><a href="#budget"><span class="lang en">Scope & Budget</span><span class="lang es hidden">Alcance y Presupuesto</span></a></li>
+                    </ul>
+                </nav>
+                <div class="lang-switch">
+                    <button onclick="setLang('en')" id="btn-en-desktop" class="active">ENG</button> | 
+                    <button onclick="setLang('es')" id="btn-es-desktop">ESP</button>
+                </div>
+            </div>
+            <button class="hamburger" id="hamburger-btn">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </header>
+
+    <div class="mobile-menu" id="mobile-menu">
+        <button class="close-menu" id="close-menu-btn">&times;</button>
+        <div class="logo" style="margin-bottom: 40px;">
+            <a href="#" class="logo-text" style="color: var(--accent); font-weight: 700; font-size: 1.5rem;">Loop Development</a>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#overview" class="mobile-link"><span class="lang en">Overview</span><span class="lang es hidden">Resumen</span></a></li>
+                <li><a href="#roadmap" class="mobile-link"><span class="lang en">Roadmap</span><span class="lang es hidden">Cronograma</span></a></li>
+                <li><a href="#budget" class="mobile-link"><span class="lang en">Scope & Budget</span><span class="lang es hidden">Alcance y Presupuesto</span></a></li>
+            </ul>
+        </nav>
+        <div class="lang-switch" style="margin-top: 20px;">
+            <button onclick="setLang('en')" id="btn-en-mobile" class="active">ENG</button> | 
+            <button onclick="setLang('es')" id="btn-es-mobile">ESP</button>
+        </div>
+    </div>
+
+    <div class="hero fade-in-up">
+        <div class="wrapper">
+            <div class="hero-left">
+                <img src="ct-logo.png" alt="Controltecnica" onerror="this.onerror=null; this.src='https://via.placeholder.com/280x80/102A43/FFFFFF?text=Controltecnica';">
+            </div>
+            <div class="hero-right">
+                <div>
+                    <h1>
+                        <span class="lang en">Clean Rebuild Proposal:<br>BIO Division Platform</span>
+                        <span class="lang es hidden">Propuesta de Reconstrucción:<br>Plataforma División BIO</span>
+                    </h1>
+                    <p>
+                        <span class="lang en">A complete migration to an independent, high-performance architecture. Built for speed, catalog scalability, and advanced lead generation.</span>
+                        <span class="lang es hidden">Una migración completa a una arquitectura independiente de alto rendimiento. Diseñada para velocidad, escalabilidad de catálogo y generación avanzada de leads.</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section id="overview" class="fade-in-up">
+        <div class="section-header">
+            <h2><span class="lang en">Project Strategy</span><span class="lang es hidden">Estrategia del Proyecto</span></h2>
+            <p>
+                <span class="lang en">Instead of patching a slow, outdated theme, this project executes a "Clean Rebuild." We will utilize a private Staging Environment on your Plesk server to build a blazing-fast, modern website without affecting your live traffic.</span>
+                <span class="lang es hidden">En lugar de parchear un tema lento y obsoleto, este proyecto ejecuta una "Reconstrucción Limpia". Utilizaremos un Entorno de Staging privado en su servidor Plesk para construir una web rápida y moderna sin afectar su tráfico en vivo.</span>
+            </p>
+        </div>
+
+        <div class="grid-container">
+            <div class="card hover-3d">
+                <h3><span class="lang en">Dynamic Architecture</span><span class="lang es hidden">Arquitectura Dinámica</span></h3>
+                <p>
+                    <span class="lang en">Replacing heavy visual builders with Elementor Pro. We will establish Custom Post Types and automated 'Brand Showcases' to cleanly manage all 130 technical products.</span>
+                    <span class="lang es hidden">Reemplazamos los constructores pesados con Elementor Pro. Estableceremos Custom Post Types y 'Brand Showcases' automatizados para gestionar limpiamente los 130 productos técnicos.</span>
+                </p>
+            </div>
+            <div class="card hover-3d">
+                <h3><span class="lang en">Interactive Lead Gen</span><span class="lang es hidden">Captación Interactiva</span></h3>
+                <p>
+                    <span class="lang en">Implementation of a multi-step 'AI Recommender Quiz' to guide users to the perfect equipment, routing qualified leads directly to the lab triage team.</span>
+                    <span class="lang es hidden">Implementación de un 'Quiz Recomendador de IA' de varios pasos para guiar a los usuarios al equipo perfecto, enviando leads cualificados directamente al equipo de triaje del laboratorio.</span>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section id="roadmap" style="background: var(--bg-white);" class="fade-in-up">
+        <div class="section-header">
+            <h2><span class="lang en">5-Week Execution Roadmap</span><span class="lang es hidden">Cronograma de Ejecución (5 Semanas)</span></h2>
+            <p>
+                <span class="lang en">A structured timeline ensuring zero downtime, proper data formatting, and rigorous quality assurance before the final launch.</span>
+                <span class="lang es hidden">Un cronograma estructurado que garantiza cero tiempo de inactividad, formato de datos adecuado y un riguroso control de calidad antes del lanzamiento final.</span>
+            </p>
+        </div>
+
+        <div class="timeline-wrapper">
+            <div class="timeline-flex">
+                <div class="time-block">
+                    <h4><span class="lang en">Week 1</span><span class="lang es hidden">Semana 1</span></h4>
+                    <span class="promo-subheader"><span class="lang en">Foundation & UI</span><span class="lang es hidden">Fundación y UI</span></span>
+                    <p><span class="lang en">Plesk staging setup, removal of legacy bloat, and design approval for Global elements (Home, Contact, Headers).</span><span class="lang es hidden">Setup de staging en Plesk, limpieza de código heredado y diseño de elementos globales (Home, Contacto, Cabeceras).</span></p>
+                </div>
+                <div class="time-block light-block">
+                    <h4><span class="lang en">Week 2</span><span class="lang es hidden">Semana 2</span></h4>
+                    <span class="promo-subheader"><span class="lang en">The Architecture</span><span class="lang es hidden">La Arquitectura</span></span>
+                    <p><span class="lang en">Building the database molds. Design of the Single and Grouped dynamic product templates for approval.</span><span class="lang es hidden">Construcción de los moldes de datos. Diseño de las plantillas dinámicas de productos Unitarios y Agrupados para aprobación.</span></p>
+                </div>
+                <div class="time-block">
+                    <h4><span class="lang en">Weeks 3 & 4</span><span class="lang es hidden">Semanas 3 y 4</span></h4>
+                    <span class="promo-subheader"><span class="lang en">Data Entry & Logic</span><span class="lang es hidden">Ingreso de Datos y Lógica</span></span>
+                    <p><span class="lang en">Manual formatting of 130 product sheets and full configuration of the multi-step Lead Generation Quiz.</span><span class="lang es hidden">Formato manual de 130 fichas de productos y configuración completa del Quiz de Captación de Leads.</span></p>
+                </div>
+                <div class="time-block light-block">
+                    <h4><span class="lang en">Week 5</span><span class="lang es hidden">Semana 5</span></h4>
+                    <span class="promo-subheader"><span class="lang en">SEO & Launch</span><span class="lang es hidden">SEO y Lanzamiento</span></span>
+                    <p><span class="lang en">Performance caching, cross-device testing, client final review, and 1-click zero-downtime migration to Live.</span><span class="lang es hidden">Optimización de caché, pruebas en dispositivos, revisión final del cliente y migración a Live en 1 clic sin caídas.</span></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="budget" class="fade-in-up">
+        <div class="section-header">
+            <h2><span class="lang en">Scope of Work & Budget</span><span class="lang es hidden">Alcance de Trabajo y Presupuesto</span></h2>
+        </div>
+
+        <div class="deliv-budget-grid">
+            <div class="entregables-col">
+                <h3><span class="lang en">Project Phases</span><span class="lang es hidden">Fases del Proyecto</span></h3>
+                <ul class="custom-list">
+                    <li>
+                        <strong><span class="lang en">1. Server Setup, Staging & Bloat Removal</span><span class="lang es hidden">1. Setup de Servidor y Limpieza</span></strong>
+                        <span class="lang en">Audit Plesk, configure secure staging environment, install Elementor Pro, clean up legacy wpBakery/sliders.</span>
+                        <span class="lang es hidden">Auditoría Plesk, configuración de entorno staging seguro, instalación de Elementor Pro, limpieza de wpBakery/sliders antiguos.</span>
+                    </li>
+                    <li>
+                        <strong><span class="lang en">2. Global UI/UX & Core Pages Rebuild</span><span class="lang es hidden">2. Diseño UI/UX y Páginas Core</span></strong>
+                        <span class="lang en">Design Home, About Us, Contact, global Headers/Footers, and floating WhatsApp integration. <em>(Includes: 2 Rounds of Revisions)</em></span>
+                        <span class="lang es hidden">Diseño de Home, Sobre Nosotros, Contacto, Cabeceras/Footers y WhatsApp flotante. <em>(Incluye: 2 Rondas de Revisiones)</em></span>
+                    </li>
+                    <li>
+                        <strong><span class="lang en">3. Catalog Architecture & Templates</span><span class="lang es hidden">3. Arquitectura de Catálogo y Plantillas</span></strong>
+                        <span class="lang en">Set up Custom Post Types for 9 families, design 2 dynamic template variants (Individual & Grouped), configure Brand Showcase. <em>(Includes: 2 Rounds of Revisions)</em></span>
+                        <span class="lang es hidden">Setup de Custom Post Types para 9 familias, diseño de 2 plantillas dinámicas (Unitarias y Agrupadas). <em>(Incluye: 2 Rondas de Revisiones)</em></span>
+                    </li>
+                    <li>
+                        <strong><span class="lang en">4. Product Data Entry (130 Products)</span><span class="lang es hidden">4. Carga de Datos (130 Productos)</span></strong>
+                        <span class="lang en">Manual creation, formatting specification tables, and compressing image assets for 63 distinct product data sheets.</span>
+                        <span class="lang es hidden">Creación manual, formato de tablas de especificaciones y compresión de imágenes para 63 fichas de productos.</span>
+                    </li>
+                    <li>
+                        <strong><span class="lang en">5. Interactive Recommender Quiz</span><span class="lang es hidden">5. Quiz Interactivo Recomendador</span></strong>
+                        <span class="lang en">Map logic, build interactive multiple-choice flow, link final outcomes to specific product pages/triage email.</span>
+                        <span class="lang es hidden">Mapeo de lógica, construcción de flujo interactivo, enlace de resultados a productos y correo de triaje.</span>
+                    </li>
+                    <li>
+                        <strong><span class="lang en">6. Technical SEO & Speed Optimization</span><span class="lang es hidden">6. SEO Técnico y Velocidad</span></strong>
+                        <span class="lang en">Implement on-page SEO, schema markup, and caching to resolve the current 24/100 Lighthouse performance score.</span>
+                        <span class="lang es hidden">Implementación de SEO on-page, schema markup y caché para resolver la puntuación actual de 24/100 en Lighthouse.</span>
+                    </li>
+                    <li>
+                        <strong><span class="lang en">7. QA, Testing & Live Migration</span><span class="lang es hidden">7. QA, Pruebas y Migración a Live</span></strong>
+                        <span class="lang en">Cross-device testing, broken link checks, form routing verification, and zero-downtime push from Staging to Live. <em>(Includes: 1 Final Polish Round)</em></span>
+                        <span class="lang es hidden">Pruebas en dispositivos, verificación de formularios y push a Live sin tiempo de inactividad. <em>(Incluye: 1 Ronda de Pulido Final)</em></span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="budget-card">
+                <h3><span class="lang en">Project Investment</span><span class="lang es hidden">Inversión del Proyecto</span></h3>
+                <div class="price-breakdown">
+                    <div class="price-row">
+                        <span>Phase 1</span>
+                        <span>150,00€</span>
+                    </div>
+                    <div class="price-row">
+                        <span>Phase 2</span>
+                        <span>350,00€</span>
+                    </div>
+                    <div class="price-row">
+                        <span>Phase 3</span>
+                        <span>300,00€</span>
+                    </div>
+                    <div class="price-row">
+                        <span>Phase 4</span>
+                        <span>550,00€</span>
+                    </div>
+                    <div class="price-row">
+                        <span>Phase 5</span>
+                        <span>300,00€</span>
+                    </div>
+                    <div class="price-row">
+                        <span>Phase 6</span>
+                        <span>200,00€</span>
+                    </div>
+                    <div class="price-row">
+                        <span>Phase 7</span>
+                        <span>125,00€</span>
+                    </div>
+                    <div class="price-row" style="margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--border);">
+                        <span>Software: Elementor Pro</span>
+                        <span>59,00€</span>
+                    </div>
+                    <div class="price-row total">
+                        <span>Subtotal</span>
+                        <span>2.034,00€</span>
+                    </div>
+                    <div class="price-row" style="margin-top: 10px; font-size: 0.9rem; color: var(--text-body);">
+                        <span><span class="lang en">+ VAT (21%)</span><span class="lang es hidden">+ IVA (21%)</span></span>
+                        <span>427,14€</span>
+                    </div>
+                    <div class="price-row" style="font-weight: 700; color: var(--text-headers);">
+                        <span>Total</span>
+                        <span>2.461,14€</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="disclaimers" class="fade-in-up" style="background: var(--bg-white); padding-top: 0;">
+        <div class="section-header">
+            <h2><span class="lang en">Terms & Assumptions</span><span class="lang es hidden">Términos y Condiciones</span></h2>
+        </div>
+        <div class="info-box">
+            <ul>
+                <li>
+                    <strong><span class="lang en">Revisions & Approvals:</span><span class="lang es hidden">Revisiones y Aprobaciones:</span></strong> 
+                    <span class="lang en">To keep the project on schedule, this proposal includes two (2) consolidated rounds of revisions for major visual milestones (UI and Templates). Additional rounds or changes to approved elements will be billed at standard agency rates.</span>
+                    <span class="lang es hidden">Para mantener el proyecto en plazo, se incluyen dos (2) rondas consolidadas de revisiones para los hitos visuales. Rondas adicionales o cambios en elementos ya aprobados se facturarán a la tarifa estándar de la agencia.</span>
+                </li>
+                <li>
+                    <strong><span class="lang en">Product Data Provision:</span><span class="lang es hidden">Provisión de Datos de Producto:</span></strong> 
+                    <span class="lang en">The client is responsible for providing all missing technical specifications and PDFs via a centralized folder prior to the Phase 4 start date. Data mining or manual hunting for PDFs by the agency is not included in this scope.</span>
+                    <span class="lang es hidden">El cliente es responsable de proporcionar todas las especificaciones y PDFs faltantes en una carpeta centralizada antes de iniciar la Fase 4. La búsqueda manual de PDFs por parte de la agencia no está incluida en este presupuesto.</span>
+                </li>
+                <li>
+                    <strong><span class="lang en">Third-Party Hosting:</span><span class="lang es hidden">Hosting y Dominios:</span></strong> 
+                    <span class="lang en">Any third-party costs (hosting servers, domain renewals) are not included and remain the responsibility of the client.</span>
+                    <span class="lang es hidden">Cualquier coste de terceros (servidores, renovación de dominios) no está incluido y es responsabilidad del cliente.</span>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <footer>
+        <p>
+            <span class="lang en">&copy; 2026 Prepared exclusively for Controltecnica BIO Division.</span>
+            <span class="lang es hidden">&copy; 2026 Preparado exclusivamente para Controltecnica División BIO.</span>
+        </p>
+        <div class="footer-contact">santiago@loopdev.es</div>
+    </footer>
+
+    <script>
+        function setLang(lang) {
+            document.getElementById('btn-en-desktop').classList.toggle('active', lang === 'en');
+            document.getElementById('btn-es-desktop').classList.toggle('active', lang === 'es');
+            document.getElementById('btn-en-mobile').classList.toggle('active', lang === 'en');
+            document.getElementById('btn-es-mobile').classList.toggle('active', lang === 'es');
+            document.querySelectorAll('.lang').forEach(el => el.classList.toggle('hidden', !el.classList.contains(lang)));
+        }
+
+        const hamburgerBtn = document.getElementById('hamburger-btn');
+        const closeMenuBtn = document.getElementById('close-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        hamburgerBtn.addEventListener('click', () => { mobileMenu.classList.add('open'); document.body.style.overflow = 'hidden'; });
+        closeMenuBtn.addEventListener('click', () => { mobileMenu.classList.remove('open'); document.body.style.overflow = ''; });
+        document.querySelectorAll('.mobile-link').forEach(link => link.addEventListener('click', () => { mobileMenu.classList.remove('open'); document.body.style.overflow = ''; }));
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.fade-in-up').forEach(element => observer.observe(element));
+    </script>
+</body>
+</html>
